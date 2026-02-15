@@ -1,1 +1,7 @@
 project_id = "aqeelhpfagcwaagyzhll"
+
+[functions.chat]
+verify_jwt = false
+
+[functions.analyze-patient]
+verify_jwt = false

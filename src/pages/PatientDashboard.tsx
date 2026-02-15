@@ -1,50 +1,65 @@
 import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
+import { useMedications, useTodayLogs } from "@/hooks/useMedications";
+import { useSymptoms } from "@/hooks/useSymptoms";
+import { useRecommendations } from "@/hooks/useRecommendations";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Pill, MessageSquare, ClipboardList, LogOut } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Activity, Pill, ClipboardList, Brain } from "lucide-react";
+import AppHeader from "@/components/AppHeader";
+import MedicationList from "@/components/patient/MedicationList";
+import AddMedicationDialog from "@/components/patient/AddMedicationDialog";
+import SymptomLogDialog from "@/components/patient/SymptomLogDialog";
+import AIChatDialog from "@/components/patient/AIChatDialog";
+import RecommendationCards from "@/components/patient/RecommendationCards";
+import SymptomsList from "@/components/patient/SymptomsList";
 
 export default function PatientDashboard() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  const { data: meds } = useMedications();
+  const { data: todayLogs } = useTodayLogs();
+  const { data: symptoms } = useSymptoms(5);
+  const { data: recs } = useRecommendations();
+
+  const adherenceToday = meds?.length
+    ? Math.round(((todayLogs?.filter(l => l.taken)?.length ?? 0) / meds.length) * 100)
+    : 0;
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Activity className="h-6 w-6 text-primary" />
-            <span className="text-lg font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>SignalRX</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">{user?.email}</span>
-            <Button variant="ghost" size="icon" onClick={signOut}><LogOut className="h-4 w-4" /></Button>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="container mx-auto px-4 py-8 space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">Good day 👋</h1>
-          <p className="text-muted-foreground">Here's your health overview for today.</p>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h1 className="text-2xl font-bold font-display">Good day 👋</h1>
+            <p className="text-muted-foreground">Here's your health overview for today.</p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            <AddMedicationDialog />
+            <SymptomLogDialog />
+            <AIChatDialog />
+          </div>
         </div>
 
+        {/* Stats */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Today's Medications</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Medications</CardTitle>
               <Pill className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-16" />
+              <p className="text-2xl font-bold">{meds?.length ?? 0}</p>
+              <p className="text-xs text-muted-foreground">active prescriptions</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Adherence Streak</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Today's Adherence</CardTitle>
               <Activity className="h-4 w-4 text-accent" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-16" />
+              <p className="text-2xl font-bold">{adherenceToday}%</p>
+              <p className="text-xs text-muted-foreground">{todayLogs?.filter(l => l.taken)?.length ?? 0}/{meds?.length ?? 0} taken</p>
             </CardContent>
           </Card>
           <Card>
@@ -53,38 +68,30 @@ export default function PatientDashboard() {
               <ClipboardList className="h-4 w-4 text-destructive" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-16" />
+              <p className="text-2xl font-bold">{symptoms?.length ?? 0}</p>
+              <p className="text-xs text-muted-foreground">logged recently</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">AI Insights</CardTitle>
-              <MessageSquare className="h-4 w-4 text-primary" />
+              <Brain className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-16" />
+              <p className="text-2xl font-bold">{recs?.length ?? 0}</p>
+              <p className="text-xs text-muted-foreground">recommendations</p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="flex gap-3">
-          <Button>Log Symptom</Button>
-          <Button variant="outline">Chat with AI</Button>
+        {/* Medication tracking + Symptoms side by side */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <MedicationList />
+          <SymptomsList />
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Today's Medications</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <Skeleton className="h-5 w-40" />
-                <Skeleton className="h-9 w-20" />
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {/* AI Insights */}
+        <RecommendationCards />
       </main>
     </div>
   );
