@@ -2,6 +2,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useMedications, useTodayLogs } from "@/hooks/useMedications";
 import { useSymptoms } from "@/hooks/useSymptoms";
 import { useRecommendations } from "@/hooks/useRecommendations";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { subDays } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Pill, ClipboardList, Brain } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
@@ -11,6 +14,7 @@ import SymptomLogDialog from "@/components/patient/SymptomLogDialog";
 import AIChatDialog from "@/components/patient/AIChatDialog";
 import RecommendationCards from "@/components/patient/RecommendationCards";
 import SymptomsList from "@/components/patient/SymptomsList";
+import AdherenceChart from "@/components/charts/AdherenceChart";
 
 export default function PatientDashboard() {
   const { user } = useAuth();
@@ -18,6 +22,23 @@ export default function PatientDashboard() {
   const { data: todayLogs } = useTodayLogs();
   const { data: symptoms } = useSymptoms(5);
   const { data: recs } = useRecommendations();
+
+  // Fetch 14-day medication logs for chart
+  const { data: medLogs14 } = useQuery({
+    queryKey: ["medication_logs_14d", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const since = subDays(new Date(), 14).toISOString();
+      const { data, error } = await supabase
+        .from("medication_logs")
+        .select("*")
+        .eq("user_id", user!.id)
+        .gte("logged_at", since)
+        .order("logged_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const adherenceToday = meds?.length
     ? Math.round(((todayLogs?.filter(l => l.taken)?.length ?? 0) / meds.length) * 100)
@@ -83,6 +104,9 @@ export default function PatientDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Adherence Chart */}
+        <AdherenceChart medLogs={medLogs14 ?? []} medications={meds ?? []} />
 
         {/* Medication tracking + Symptoms side by side */}
         <div className="grid gap-6 lg:grid-cols-2">

@@ -11,10 +11,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, AlertTriangle, Activity, Search, Check, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import AppHeader from "@/components/AppHeader";
 
 function PatientList() {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const { data: profiles, isLoading } = useQuery({
     queryKey: ["doctor-patients"],
     queryFn: async () => {
@@ -52,7 +54,7 @@ function PatientList() {
               <p className="font-medium text-sm">{p.first_name} {p.last_name}</p>
               <p className="text-xs text-muted-foreground">Joined {format(new Date(p.created_at), "MMM d, yyyy")}</p>
             </div>
-            <Button size="sm" variant="ghost" className="gap-1"><Eye className="h-3.5 w-3.5" /> View</Button>
+            <Button size="sm" variant="ghost" className="gap-1" onClick={() => navigate(`/doctor/patient/${p.user_id}`)}><Eye className="h-3.5 w-3.5" /> View</Button>
           </div>
         ))}
       </CardContent>

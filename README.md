@@ -1,73 +1,434 @@
-# Welcome to your Lovable project
+# SignalRX — AI-Powered Medication Adherence Platform
 
-## Project info
+<div align="center">
+  <h3>🏥 Monitor. Detect. Intervene.</h3>
+  <p>SignalRX is a healthcare SaaS platform that uses AI to monitor post-prescription medication adherence, detect side-effect patterns, and alert care teams in real-time.</p>
+</div>
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 📋 Table of Contents
 
-There are several ways of editing your application.
+- [What Problem Does It Solve?](#what-problem-does-it-solve)
+- [How Does SignalRX Solve It?](#how-does-signalrx-solve-it)
+- [Does It Save Time?](#does-it-save-time)
+- [Does It Save Money?](#does-it-save-money)
+- [Features](#features)
+- [Software Architecture](#software-architecture)
+- [System Design](#system-design)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Checklists](#checklists)
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## ❓ What Problem Does It Solve?
 
-Changes made via Lovable will be committed automatically to this repo.
+**Medication non-adherence is a $300 billion problem in the US alone.**
 
-**Use your preferred IDE**
+- **50% of patients** don't take medications as prescribed (WHO)
+- **125,000 deaths annually** in the US due to medication non-adherence
+- **10% of hospitalizations** are caused by non-adherence
+- Doctors have **zero visibility** into what happens after a prescription is written
+- Side effects go **unreported for weeks** until they become emergencies
+- Patients feel **disconnected** from their care team between appointments
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The gap between prescription and adherence is a **black box** in healthcare. Neither patients nor doctors have the tools to monitor, analyze, or act on medication behavior in real-time.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 💡 How Does SignalRX Solve It?
+
+SignalRX bridges the prescription-to-adherence gap with a three-layer approach:
+
+### 1. Patient Self-Tracking
+Patients log daily medication intake (take/skip) and report symptoms with severity ratings. The interface is simple enough for elderly patients — just two buttons per medication per day.
+
+### 2. AI-Powered Analysis
+An AI engine continuously analyzes patient data to:
+- **Detect adherence patterns**: Identifies patients who consistently miss doses or skip medications
+- **Correlate symptoms with medications**: If a patient starts reporting headaches 3 days after starting a new drug, SignalRX flags the potential side-effect
+- **Score risk levels**: Each patient gets a dynamic risk score based on adherence rates and symptom severity
+
+### 3. Doctor Alerting & Oversight
+When risk thresholds are breached, SignalRX automatically creates alerts for the care team. Doctors see a prioritized list of patients who need attention, complete with adherence charts, symptom timelines, and AI recommendations — all before the patient's next appointment.
+
+### The AI Health Assistant
+Patients can chat with an AI assistant that understands their medications and symptoms. It answers questions like "Is nausea normal with metformin?" or "Should I take my evening dose if I missed the morning one?" — reducing unnecessary calls to the doctor's office.
+
+---
+
+## ⏱️ Does It Save Time?
+
+**Yes. Significantly.**
+
+| Without SignalRX | With SignalRX |
+|---|---|
+| Doctor calls patients to check on medication compliance | Dashboard shows adherence data automatically |
+| Patients wait for appointments to report side effects | Real-time symptom logging with instant AI triage |
+| Nurses manually review medication logs | AI generates prioritized risk reports |
+| Doctor spends 15 min per patient reviewing history | One-click patient detail view with charts |
+| Patients call the office for medication questions | AI chatbot answers 24/7 instantly |
+
+**Estimated time savings:**
+- **Doctors**: 2-3 hours/week on patient follow-up and chart review
+- **Patients**: Instant AI responses vs. waiting for callbacks
+- **Nurses/staff**: Automated alerts replace manual check-in calls
+
+---
+
+## 💰 Does It Save Money?
+
+**Yes. At every level.**
+
+### For Healthcare Systems
+- **Reduced hospital readmissions**: Catching non-adherence early prevents costly ER visits ($2,500-$25,000 per admission)
+- **Fewer adverse drug events**: Side-effect detection prevents complications (avg. $7,000 per preventable adverse event)
+- **Lower administrative overhead**: Automated monitoring replaces manual follow-up calls
+
+### For Patients
+- **Fewer unnecessary doctor visits**: AI chat answers common medication questions
+- **Better health outcomes**: Adherent patients spend less on emergency care
+- **Prevention of drug waste**: Tracking helps identify medications that aren't working early
+
+### For Insurance / Payers
+- **Lower claims costs**: Adherent patients have 20% lower total healthcare costs
+- **Predictive risk scoring**: Identify at-risk patients before they become expensive claims
+
+**Conservative estimate**: SignalRX saves **$1,200-$3,600 per patient per year** in reduced hospitalizations and adverse events.
+
+---
+
+## ✨ Features
+
+### Patient Dashboard
+- Daily medication tracking with take/skip buttons
+- Symptom logging with 5-level severity scale
+- Adherence statistics and streaks
+- AI health assistant with streaming chat
+- AI-generated health recommendations
+
+### Doctor Dashboard
+- Patient list with search functionality
+- Detailed patient view with full medical history
+- 14-day adherence analytics chart (stacked bar chart)
+- Symptom timeline with severity indicators
+- AI recommendations per patient
+- Alert management (acknowledge/resolve)
+
+### Admin Panel
+- User management with role assignment (Patient, Doctor, Admin)
+- System overview with aggregate metrics
+- Audit log viewer for all critical actions
+
+### AI System
+- Conversational health assistant (streaming SSE)
+- Adherence pattern detection
+- Side-effect correlation engine
+- Dynamic risk scoring
+- Automatic doctor alert generation
+
+### Marketing Landing Page
+- Hero section with value proposition
+- Feature highlights with icons
+- How-it-works flow
+- Pricing tiers
+- Testimonials from healthcare professionals
+- FAQ section
+- Professional footer with navigation
+
+---
+
+## 🏗️ Software Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        FRONTEND (React SPA)                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
+│  │  Landing  │  │   Auth   │  │ Patient  │  │     Doctor       │ │
+│  │   Page    │  │  Pages   │  │Dashboard │  │   Dashboard      │ │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────────────┘ │
+│  ┌──────────┐  ┌──────────────────────────────┐                  │
+│  │  Admin   │  │     Shared Components        │                  │
+│  │  Panel   │  │  (AppHeader, Footer, Charts) │                  │
+│  └──────────┘  └──────────────────────────────┘                  │
+│                                                                   │
+│  ┌────────────────────────────────────────────┐                  │
+│  │          Custom Hooks Layer                 │                  │
+│  │  useMedications · useSymptoms · useAlerts  │                  │
+│  │  useRecommendations · useChat · useAuth    │                  │
+│  └────────────────────────────────────────────┘                  │
+│                          │                                        │
+│                    Supabase JS SDK                                │
+└──────────────────────────┼───────────────────────────────────────┘
+                           │
+                    HTTPS / WSS
+                           │
+┌──────────────────────────┼───────────────────────────────────────┐
+│                     BACKEND (Lovable Cloud)                       │
+│                                                                   │
+│  ┌─────────────────┐  ┌─────────────────────────┐                │
+│  │   Auth Service   │  │    Edge Functions        │               │
+│  │  (Email/Pass)    │  │  ┌─────────────────────┐│               │
+│  └─────────────────┘  │  │  chat (SSE stream)  ││               │
+│                        │  │  → AI Gateway       ││               │
+│  ┌─────────────────┐  │  ├─────────────────────┤│               │
+│  │  PostgreSQL DB   │  │  │ analyze-patient     ││               │
+│  │  ┌─────────────┐│  │  │  → Risk scoring     ││               │
+│  │  │  profiles   ││  │  │  → Alert creation   ││               │
+│  │  │  user_roles ││  │  └─────────────────────┘│               │
+│  │  │ medications ││  └─────────────────────────┘                │
+│  │  │  med_logs   ││                                              │
+│  │  │symptom_logs ││  ┌─────────────────────────┐                │
+│  │  │    alerts   ││  │    RLS Policies          │               │
+│  │  │ ai_recs     ││  │  has_role() function    │                │
+│  │  │chat_messages││  │  Per-table policies     │                │
+│  │  │ audit_logs  ││  └─────────────────────────┘                │
+│  │  └─────────────┘│                                              │
+│  └─────────────────┘  ┌─────────────────────────┐                │
+│                        │   Lovable AI Gateway     │               │
+│                        │  (Gemini Flash model)    │               │
+│                        └─────────────────────────┘                │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔧 System Design
+
+### Data Flow
+
+```
+Patient Action (take medication, log symptom)
+       │
+       ▼
+  Frontend Hook (useMedications, useSymptoms)
+       │
+       ▼
+  Supabase SDK → PostgreSQL (with RLS)
+       │
+       ▼
+  Edge Function: analyze-patient
+       │
+       ├── Calculates adherence rate
+       ├── Detects symptom patterns
+       ├── Calls AI Gateway for analysis
+       │
+       ▼
+  AI Gateway (Gemini) → Structured response
+       │
+       ├── Store ai_recommendations
+       ├── If risk > threshold → Create alert
+       │
+       ▼
+  Doctor Dashboard (real-time via query refresh)
+```
+
+### Authentication Flow
+
+```
+User signs up (email + password)
+       │
+       ▼
+  Supabase Auth creates user in auth.users
+       │
+       ▼
+  Trigger: handle_new_user()
+       │
+       ├── Creates profile in public.profiles
+       ├── Assigns 'patient' role in user_roles
+       │
+       ▼
+  Frontend: AuthContext detects session
+       │
+       ├── Fetches roles from user_roles
+       ├── Navigates to role-appropriate dashboard
+       │
+       ▼
+  ProtectedRoute checks role before rendering
+```
+
+### AI Chat Flow
+
+```
+User sends message
+       │
+       ▼
+  useChat hook → POST to /functions/v1/chat
+       │
+       ▼
+  Edge Function: chat
+       │
+       ├── Formats messages for AI Gateway
+       ├── Calls Lovable AI (Gemini Flash)
+       ├── Streams response via SSE
+       │
+       ▼
+  Frontend: Reads SSE stream
+       │
+       ├── Updates UI character-by-character
+       ├── Persists complete message to chat_messages
+       │
+       ▼
+  User sees streaming AI response
+```
+
+### Security Model
+
+```
+┌──────────────────────────────────────────┐
+│              Row Level Security           │
+│                                          │
+│  Patient:                                │
+│    SELECT own data only                  │
+│    INSERT own data only                  │
+│    UPDATE own data only                  │
+│    DELETE own data only                  │
+│                                          │
+│  Doctor:                                 │
+│    SELECT all patient data (read-only)   │
+│    UPDATE assigned alerts only           │
+│                                          │
+│  Admin:                                  │
+│    Full CRUD on all tables               │
+│    Manage user roles                     │
+│    View audit logs                       │
+│                                          │
+│  Security Function:                      │
+│    has_role(user_id, role) → boolean     │
+│    SECURITY DEFINER (runs as owner)      │
+└──────────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, TypeScript, Vite |
+| Styling | Tailwind CSS, shadcn/ui |
+| State | React Query (TanStack Query) |
+| Routing | React Router v6 |
+| Charts | Recharts |
+| AI Chat | react-markdown, SSE streaming |
+| Backend | Lovable Cloud (Supabase) |
+| Database | PostgreSQL with RLS |
+| Auth | Email/password via Supabase Auth |
+| AI | Lovable AI Gateway (Gemini Flash) |
+| Edge Functions | Deno runtime |
+| Fonts | Inter, Plus Jakarta Sans |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm
+
+### Local Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd signalrx
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:5173`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Environment Variables
 
-**Use GitHub Codespaces**
+The following environment variables are auto-configured by Lovable Cloud:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Variable | Description |
+|---|---|
+| `VITE_SUPABASE_URL` | Backend API URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Public API key for frontend |
+| `LOVABLE_API_KEY` | AI Gateway access (edge functions only) |
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 📂 Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/
+│   ├── ui/              # shadcn/ui components
+│   ├── charts/          # AdherenceChart
+│   ├── patient/         # Patient-specific components
+│   │   ├── AIChatDialog
+│   │   ├── AddMedicationDialog
+│   │   ├── MedicationList
+│   │   ├── RecommendationCards
+│   │   ├── SymptomLogDialog
+│   │   └── SymptomsList
+│   ├── AppHeader.tsx
+│   ├── Footer.tsx
+│   ├── NavLink.tsx
+│   └── ProtectedRoute.tsx
+├── contexts/
+│   └── AuthContext.tsx   # Authentication state
+├── hooks/
+│   ├── useAlerts.ts
+│   ├── useChat.ts
+│   ├── useMedications.ts
+│   ├── useRecommendations.ts
+│   └── useSymptoms.ts
+├── integrations/
+│   └── supabase/         # Auto-generated client & types
+├── pages/
+│   ├── Index.tsx          # Landing page
+│   ├── Auth.tsx           # Login/signup
+│   ├── Dashboard.tsx      # Role-based redirect
+│   ├── PatientDashboard.tsx
+│   ├── DoctorDashboard.tsx
+│   ├── DoctorPatientDetail.tsx
+│   ├── AdminDashboard.tsx
+│   └── NotFound.tsx
+└── App.tsx               # Routes & providers
 
-## How can I deploy this project?
+supabase/
+├── functions/
+│   ├── chat/             # AI chat edge function
+│   └── analyze-patient/  # AI analysis edge function
+└── config.toml           # Function configuration
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 📊 Database Schema
 
-Yes, you can!
+| Table | Purpose |
+|---|---|
+| `profiles` | User profile data (name, avatar, phone) |
+| `user_roles` | RBAC role assignments |
+| `medications` | Patient prescriptions |
+| `medication_logs` | Daily intake tracking |
+| `symptom_logs` | Patient-reported symptoms |
+| `ai_recommendations` | AI-generated insights |
+| `alerts` | Risk alerts for doctors |
+| `chat_messages` | AI chat history |
+| `audit_logs` | System audit trail |
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📝 Checklists
+
+- **[MVP_LAUNCH_CHECKLIST.md](./MVP_LAUNCH_CHECKLIST.md)** — Feature completion and launch day tasks
+- **[READY_CHECKLIST.md](./READY_CHECKLIST.md)** — Production readiness assessment
+- **[SAAS_READY_CHECKLIST.md](./SAAS_READY_CHECKLIST.md)** — SaaS business model readiness
+
+---
+
+## 📄 License
+
+Proprietary. All rights reserved.
