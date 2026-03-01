@@ -8,6 +8,7 @@ import { subDays } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Pill, ClipboardList, Brain } from "lucide-react";
 import AppHeader from "@/components/AppHeader";
+import Footer from "@/components/Footer";
 import MedicationList from "@/components/patient/MedicationList";
 import AddMedicationDialog from "@/components/patient/AddMedicationDialog";
 import SymptomLogDialog from "@/components/patient/SymptomLogDialog";
@@ -23,7 +24,6 @@ export default function PatientDashboard() {
   const { data: symptoms } = useSymptoms(5);
   const { data: recs } = useRecommendations();
 
-  // Fetch 14-day medication logs for chart
   const { data: medLogs14 } = useQuery({
     queryKey: ["medication_logs_14d", user?.id],
     enabled: !!user,
@@ -45,10 +45,10 @@ export default function PatientDashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <AppHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-4 py-8 space-y-6 flex-1">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <h1 className="text-2xl font-bold font-display">Good day 👋</h1>
@@ -105,18 +105,17 @@ export default function PatientDashboard() {
           </Card>
         </div>
 
-        {/* Adherence Chart */}
         <AdherenceChart medLogs={medLogs14 ?? []} medications={meds ?? []} />
 
-        {/* Medication tracking + Symptoms side by side */}
         <div className="grid gap-6 lg:grid-cols-2">
           <MedicationList />
           <SymptomsList />
         </div>
 
-        {/* AI Insights */}
         <RecommendationCards />
       </main>
+
+      <Footer />
     </div>
   );
 }

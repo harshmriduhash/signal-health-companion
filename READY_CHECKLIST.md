@@ -17,20 +17,22 @@
 - [x] Tailwind CSS with design tokens
 - [x] shadcn/ui component library
 - [x] React Query for server state management
+- [x] Sticky navigation with role-based links
+- [x] Footer on all authenticated pages
 - [ ] Service worker for offline support
 - [ ] Performance budget enforcement
 
 ### Security
-- [x] RLS on all database tables
-- [x] Role-based access control
-- [x] Authentication via email/password
+- [x] RLS on all database tables (PERMISSIVE policies)
+- [x] Role-based access control with `has_role()` function
+- [x] Role selection on signup (Patient/Doctor)
+- [x] Authentication via email/password with email verification
 - [x] Session management with auto-refresh
 - [x] Audit logging
 - [ ] HTTPS enforced (handled by hosting)
 - [ ] Content Security Policy headers
 - [ ] Input sanitization on all forms
 - [ ] Rate limiting on auth endpoints
-- [ ] CAPTCHA on signup (for production)
 
 ## Code Quality
 
@@ -49,7 +51,7 @@
 - [ ] Load testing for concurrent users
 
 ### Documentation
-- [x] README with architecture overview
+- [x] README with architecture overview and system design
 - [x] MVP Launch Checklist
 - [x] Production Ready Checklist
 - [x] SaaS Ready Checklist

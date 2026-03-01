@@ -7,10 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Activity, Shield, ScrollText } from "lucide-react";
+import { Users, Shield, ScrollText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import AppHeader from "@/components/AppHeader";
+import Footer from "@/components/Footer";
 import type { Database } from "@/integrations/supabase/types";
 
 type AppRole = Database["public"]["Enums"]["app_role"];
@@ -131,10 +132,10 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader badge={{ label: "Admin", className: "bg-destructive/10 text-destructive" }} />
+    <div className="min-h-screen bg-background flex flex-col">
+      <AppHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-4 py-8 space-y-6 flex-1">
         <h1 className="text-2xl font-bold font-display">Admin Panel</h1>
 
         <div className="grid gap-4 md:grid-cols-4">
@@ -163,6 +164,8 @@ export default function AdminDashboard() {
           <TabsContent value="audit"><AuditLog /></TabsContent>
         </Tabs>
       </main>
+
+      <Footer />
     </div>
   );
 }
