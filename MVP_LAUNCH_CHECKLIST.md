@@ -6,9 +6,11 @@
 - [x] Email/password signup and login
 - [x] Email verification flow
 - [x] Role-based access control (Patient, Doctor, Admin)
-- [x] Auto-assign patient role on signup
+- [x] Role selection during signup (Patient or Doctor)
+- [x] Auto-assign role on signup via database trigger
 - [x] Protected routes with role guards
 - [x] Session persistence and auto-refresh
+- [x] Proper PERMISSIVE RLS policies on all tables
 
 ### Patient Experience
 - [x] Patient dashboard with health overview stats
@@ -18,6 +20,7 @@
 - [x] Recent symptoms list
 - [x] AI health assistant chat (streaming responses)
 - [x] AI recommendation cards
+- [x] 14-day adherence analytics chart
 - [ ] Push notification reminders (post-MVP)
 - [ ] Medication calendar view (post-MVP)
 
@@ -45,13 +48,21 @@
 - [x] Chat message persistence
 - [ ] Multi-turn context awareness improvements (post-MVP)
 
+### Navigation & UI
+- [x] Sticky AppHeader with role-based navigation
+- [x] Role badge auto-detection
+- [x] Active nav link highlighting
+- [x] Professional footer on all pages
+- [x] Mobile-responsive layout
+- [x] Loading skeletons for data fetching
+
 ### Landing Page & Marketing
 - [x] Hero section with value proposition
-- [x] Feature highlights
-- [x] How it works section
-- [x] Pricing section
-- [x] Testimonials section
-- [x] FAQ section
+- [x] Feature highlights (6 features with icons)
+- [x] How it works section (4 steps)
+- [x] Pricing section (3 tiers)
+- [x] Testimonials section (3 testimonials)
+- [x] FAQ section (5 questions)
 - [x] Professional footer with links
 - [x] CTA to sign up
 
@@ -59,6 +70,7 @@
 
 ### Database & Security
 - [x] All tables have Row Level Security (RLS) enabled
+- [x] All RLS policies are PERMISSIVE (not RESTRICTIVE)
 - [x] RLS policies restrict data by user role
 - [x] `has_role()` security definer function
 - [x] Audit logging for critical actions
@@ -82,14 +94,14 @@
 
 ### Deployment
 - [ ] Publish frontend via Lovable
-- [ ] Verify edge functions are deployed
-- [ ] Confirm database schema matches production
+- [x] Edge functions deployed (chat, analyze-patient)
+- [x] Database schema confirmed
 - [ ] Connect custom domain (if applicable)
 - [ ] Set up monitoring/alerting
 
 ### Testing
 - [ ] End-to-end test: patient signup → medication add → symptom log → AI chat
-- [ ] End-to-end test: doctor login → view patient → manage alerts
+- [ ] End-to-end test: doctor signup → view patients → manage alerts
 - [ ] End-to-end test: admin login → assign roles → view audit log
 - [ ] Cross-browser testing (Chrome, Firefox, Safari)
 - [ ] Mobile responsive testing

@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import AppHeader from "@/components/AppHeader";
+import Footer from "@/components/Footer";
 
 function PatientList() {
   const [search, setSearch] = useState("");
@@ -113,10 +114,10 @@ export default function DoctorDashboard() {
   const { data: alerts } = useAlerts({ status: "active" });
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader badge={{ label: "Doctor", className: "bg-primary/10 text-primary" }} />
+    <div className="min-h-screen bg-background flex flex-col">
+      <AppHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-4 py-8 space-y-6 flex-1">
         <h1 className="text-2xl font-bold font-display">Doctor Dashboard</h1>
 
         <div className="grid gap-4 md:grid-cols-3">
@@ -158,6 +159,8 @@ export default function DoctorDashboard() {
           <TabsContent value="patients"><PatientList /></TabsContent>
         </Tabs>
       </main>
+
+      <Footer />
     </div>
   );
 }

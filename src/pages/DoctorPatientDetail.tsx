@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Pill, Activity, ClipboardList, Brain, AlertTriangle, TrendingUp, ShieldCheck } from "lucide-react";
 import { format, subDays } from "date-fns";
 import AppHeader from "@/components/AppHeader";
+import Footer from "@/components/Footer";
 import AdherenceChart from "@/components/charts/AdherenceChart";
 
 const severityLabels = ["", "Mild", "Minor", "Moderate", "Severe", "Critical"];
@@ -133,10 +133,10 @@ export default function DoctorPatientDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader badge={{ label: "Doctor", className: "bg-primary/10 text-primary" }} />
+    <div className="min-h-screen bg-background flex flex-col">
+      <AppHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-4 py-8 space-y-6 flex-1">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => navigate("/doctor")}>
             <ArrowLeft className="h-4 w-4" />
@@ -300,6 +300,8 @@ export default function DoctorPatientDetail() {
           </TabsContent>
         </Tabs>
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -105,7 +105,7 @@ Patients can chat with an AI assistant that understands their medications and sy
 ### Patient Dashboard
 - Daily medication tracking with take/skip buttons
 - Symptom logging with 5-level severity scale
-- Adherence statistics and streaks
+- Adherence statistics and 14-day adherence chart
 - AI health assistant with streaming chat
 - AI-generated health recommendations
 
@@ -129,11 +129,25 @@ Patients can chat with an AI assistant that understands their medications and sy
 - Dynamic risk scoring
 - Automatic doctor alert generation
 
+### Navigation & UX
+- Role-based navigation with active link highlighting
+- Sticky header with auto-detected role badge
+- Professional footer on all pages
+- Mobile-responsive design
+- Loading skeletons for all async data
+
+### Authentication
+- Email/password signup with email verification
+- Role selection during signup (Patient or Doctor)
+- Admin can assign any role via Admin Panel
+- Session auto-refresh
+- Protected routes with role guards
+
 ### Marketing Landing Page
 - Hero section with value proposition
 - Feature highlights with icons
 - How-it-works flow
-- Pricing tiers
+- Pricing tiers (Free, Pro, Clinic)
 - Testimonials from healthcare professionals
 - FAQ section
 - Professional footer with navigation
@@ -228,16 +242,16 @@ Patient Action (take medication, log symptom)
 ### Authentication Flow
 
 ```
-User signs up (email + password)
+User signs up (email + password + role selection)
        │
        ▼
-  Supabase Auth creates user in auth.users
+  Auth Service creates user in auth.users
        │
        ▼
   Trigger: handle_new_user()
        │
        ├── Creates profile in public.profiles
-       ├── Assigns 'patient' role in user_roles
+       ├── Assigns selected role (patient/doctor) in user_roles
        │
        ▼
   Frontend: AuthContext detects session
@@ -313,9 +327,9 @@ User sends message
 | Routing | React Router v6 |
 | Charts | Recharts |
 | AI Chat | react-markdown, SSE streaming |
-| Backend | Lovable Cloud (Supabase) |
+| Backend | Lovable Cloud |
 | Database | PostgreSQL with RLS |
-| Auth | Email/password via Supabase Auth |
+| Auth | Email/password with email verification |
 | AI | Lovable AI Gateway (Gemini Flash) |
 | Edge Functions | Deno runtime |
 | Fonts | Inter, Plus Jakarta Sans |
@@ -371,12 +385,12 @@ src/
 │   │   ├── RecommendationCards
 │   │   ├── SymptomLogDialog
 │   │   └── SymptomsList
-│   ├── AppHeader.tsx
-│   ├── Footer.tsx
+│   ├── AppHeader.tsx    # Sticky nav with role-based links
+│   ├── Footer.tsx       # Professional footer
 │   ├── NavLink.tsx
 │   └── ProtectedRoute.tsx
 ├── contexts/
-│   └── AuthContext.tsx   # Authentication state
+│   └── AuthContext.tsx   # Authentication state + role management
 ├── hooks/
 │   ├── useAlerts.ts
 │   ├── useChat.ts
@@ -387,7 +401,7 @@ src/
 │   └── supabase/         # Auto-generated client & types
 ├── pages/
 │   ├── Index.tsx          # Landing page
-│   ├── Auth.tsx           # Login/signup
+│   ├── Auth.tsx           # Login/signup with role selection
 │   ├── Dashboard.tsx      # Role-based redirect
 │   ├── PatientDashboard.tsx
 │   ├── DoctorDashboard.tsx
@@ -410,10 +424,10 @@ supabase/
 | Table | Purpose |
 |---|---|
 | `profiles` | User profile data (name, avatar, phone) |
-| `user_roles` | RBAC role assignments |
+| `user_roles` | RBAC role assignments (patient, doctor, admin) |
 | `medications` | Patient prescriptions |
-| `medication_logs` | Daily intake tracking |
-| `symptom_logs` | Patient-reported symptoms |
+| `medication_logs` | Daily intake tracking (taken/missed) |
+| `symptom_logs` | Patient-reported symptoms with severity |
 | `ai_recommendations` | AI-generated insights |
 | `alerts` | Risk alerts for doctors |
 | `chat_messages` | AI chat history |
@@ -431,4 +445,4 @@ supabase/
 
 ## 📄 License
 
-Proprietary. All rights reserved.
+Copyright © 2026 SignalRX. All rights reserved.
