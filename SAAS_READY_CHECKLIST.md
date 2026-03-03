@@ -1,4 +1,4 @@
-# 💼 SignalRX — SaaS Ready Checklist
+# 💼 MedPulse — SaaS Ready Checklist
 
 ## Business Model
 

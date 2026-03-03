@@ -37,7 +37,7 @@ export default function AppHeader({ badge }: AppHeaderProps) {
         <div className="flex items-center gap-4">
           <Link to="/dashboard" className="flex items-center gap-2">
             <Activity className="h-6 w-6 text-primary" />
-            <span className="text-lg font-bold font-display">SignalRX</span>
+            <span className="text-lg font-bold font-display">MedPulse</span>
           </Link>
           {displayBadge && (
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${displayBadge.className ?? "bg-primary/10 text-primary"}`}>

@@ -28,7 +28,7 @@ export default function Footer() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Activity className="h-5 w-5 text-primary" />
-              <span className="text-lg font-bold font-display">SignalRX</span>
+              <span className="text-lg font-bold font-display">MedPulse</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               AI-powered medication adherence monitoring. Helping patients stay on track and doctors stay informed.
@@ -54,7 +54,7 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} SignalRX. All rights reserved. Prototype — synthetic data only.
+            © {new Date().getFullYear()} MedPulse. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
             Built with ❤️ for better healthcare outcomes
