@@ -345,7 +345,7 @@ User sends message
 
 ```sh
 # Clone the repository
-git clone <YOUR_GIT_URL>
+git clone <github.com>
 
 # Navigate to project directory
 cd medpulse
