@@ -1,8 +1,8 @@
-# SignalRX — AI-Powered Medication Adherence Platform
+# MedPulse — AI-Powered Medication Adherence Platform
 
 <div align="center">
   <h3>🏥 Monitor. Detect. Intervene.</h3>
-  <p>SignalRX is a healthcare SaaS platform that uses AI to monitor post-prescription medication adherence, detect side-effect patterns, and alert care teams in real-time.</p>
+  <p>MedPulse is a healthcare SaaS platform that uses AI to monitor post-prescription medication adherence, detect side-effect patterns, and alert care teams in real-time.</p>
 </div>
 
 ---
@@ -10,7 +10,7 @@
 ## 📋 Table of Contents
 
 - [What Problem Does It Solve?](#what-problem-does-it-solve)
-- [How Does SignalRX Solve It?](#how-does-signalrx-solve-it)
+- [How Does MedPulse Solve It?](#how-does-medpulse-solve-it)
 - [Does It Save Time?](#does-it-save-time)
 - [Does It Save Money?](#does-it-save-money)
 - [Features](#features)
@@ -38,9 +38,9 @@ The gap between prescription and adherence is a **black box** in healthcare. Nei
 
 ---
 
-## 💡 How Does SignalRX Solve It?
+## 💡 How Does MedPulse Solve It?
 
-SignalRX bridges the prescription-to-adherence gap with a three-layer approach:
+MedPulse bridges the prescription-to-adherence gap with a three-layer approach:
 
 ### 1. Patient Self-Tracking
 Patients log daily medication intake (take/skip) and report symptoms with severity ratings. The interface is simple enough for elderly patients — just two buttons per medication per day.
@@ -48,11 +48,11 @@ Patients log daily medication intake (take/skip) and report symptoms with severi
 ### 2. AI-Powered Analysis
 An AI engine continuously analyzes patient data to:
 - **Detect adherence patterns**: Identifies patients who consistently miss doses or skip medications
-- **Correlate symptoms with medications**: If a patient starts reporting headaches 3 days after starting a new drug, SignalRX flags the potential side-effect
+- **Correlate symptoms with medications**: If a patient starts reporting headaches 3 days after starting a new drug, MedPulse flags the potential side-effect
 - **Score risk levels**: Each patient gets a dynamic risk score based on adherence rates and symptom severity
 
 ### 3. Doctor Alerting & Oversight
-When risk thresholds are breached, SignalRX automatically creates alerts for the care team. Doctors see a prioritized list of patients who need attention, complete with adherence charts, symptom timelines, and AI recommendations — all before the patient's next appointment.
+When risk thresholds are breached, MedPulse automatically creates alerts for the care team. Doctors see a prioritized list of patients who need attention, complete with adherence charts, symptom timelines, and AI recommendations — all before the patient's next appointment.
 
 ### The AI Health Assistant
 Patients can chat with an AI assistant that understands their medications and symptoms. It answers questions like "Is nausea normal with metformin?" or "Should I take my evening dose if I missed the morning one?" — reducing unnecessary calls to the doctor's office.
@@ -63,7 +63,7 @@ Patients can chat with an AI assistant that understands their medications and sy
 
 **Yes. Significantly.**
 
-| Without SignalRX | With SignalRX |
+| Without MedPulse | With MedPulse |
 |---|---|
 | Doctor calls patients to check on medication compliance | Dashboard shows adherence data automatically |
 | Patients wait for appointments to report side effects | Real-time symptom logging with instant AI triage |
@@ -96,7 +96,7 @@ Patients can chat with an AI assistant that understands their medications and sy
 - **Lower claims costs**: Adherent patients have 20% lower total healthcare costs
 - **Predictive risk scoring**: Identify at-risk patients before they become expensive claims
 
-**Conservative estimate**: SignalRX saves **$1,200-$3,600 per patient per year** in reduced hospitalizations and adverse events.
+**Conservative estimate**: MedPulse saves **$1,200-$3,600 per patient per year** in reduced hospitalizations and adverse events.
 
 ---
 
@@ -348,7 +348,7 @@ User sends message
 git clone <YOUR_GIT_URL>
 
 # Navigate to project directory
-cd signalrx
+cd medpulse
 
 # Install dependencies
 npm install
@@ -445,4 +445,4 @@ supabase/
 
 ## 📄 License
 
-Copyright © 2026 SignalRX. All rights reserved.
+Copyright © 2026 MedPulse. All rights reserved.

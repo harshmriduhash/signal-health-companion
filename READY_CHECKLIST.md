@@ -1,4 +1,4 @@
-# ✅ SignalRX — Production Ready Checklist
+# ✅ MedPulse — Production Ready Checklist
 
 ## Infrastructure
 

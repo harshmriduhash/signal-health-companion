@@ -59,7 +59,7 @@ export default function Auth() {
           <div className="flex items-center justify-center gap-2 mb-2">
             <Activity className="h-7 w-7 text-primary" />
             <span className="text-2xl font-bold tracking-tight font-display">
-              SignalRX
+              MedPulse
             </span>
           </div>
           <CardTitle className="text-xl">{isLogin ? "Welcome back" : "Create your account"}</CardTitle>

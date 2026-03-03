@@ -1,4 +1,4 @@
-# 🚀 SignalRX — MVP Launch Checklist
+# 🚀 MedPulse — MVP Launch Checklist
 
 ## Pre-Launch: Core Product Readiness
 

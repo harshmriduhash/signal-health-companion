@@ -53,7 +53,7 @@ const plans = [
 
 const testimonials = [
   {
-    quote: "SignalRX helped me catch a patient's dangerous non-adherence pattern before it led to hospitalization. The AI alerts are a game-changer.",
+    quote: "MedPulse helped me catch a patient's dangerous non-adherence pattern before it led to hospitalization. The AI alerts are a game-changer.",
     name: "Dr. Sarah Chen",
     role: "Internal Medicine, Stanford Health",
     rating: 5,
@@ -75,7 +75,7 @@ const testimonials = [
 const faqs = [
   {
     q: "Is my health data secure?",
-    a: "Absolutely. SignalRX uses row-level security policies, role-based access control, and encrypted connections. Your data is only accessible to you and your authorized care team.",
+    a: "Absolutely. MedPulse uses row-level security policies, role-based access control, and encrypted connections. Your data is only accessible to you and your authorized care team.",
   },
   {
     q: "Can my doctor see my data?",
@@ -86,8 +86,8 @@ const faqs = [
     a: "Our AI assistant is powered by advanced language models trained on medical knowledge. It can answer questions about your medications, help interpret symptoms, and provide general health guidance. It's not a replacement for your doctor — think of it as a knowledgeable health companion.",
   },
   {
-    q: "Is SignalRX HIPAA compliant?",
-    a: "SignalRX is currently in prototype stage with synthetic data. For production deployment with real patient data, we offer HIPAA-compliant infrastructure with BAA agreements for healthcare organizations.",
+    q: "Is MedPulse HIPAA compliant?",
+    a: "MedPulse is designed with HIPAA compliance in mind. For production deployment with real patient data, we offer HIPAA-compliant infrastructure with BAA agreements for healthcare organizations.",
   },
   {
     q: "Can I export my data?",
@@ -105,7 +105,7 @@ export default function Index() {
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
             <Activity className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold tracking-tight font-display">SignalRX</span>
+            <span className="text-xl font-bold tracking-tight font-display">MedPulse</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
@@ -131,7 +131,7 @@ export default function Index() {
           <span className="text-primary">intelligent AI</span>
         </h1>
         <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-          SignalRX tracks your prescriptions, detects side-effect patterns, and connects you with your doctor when it matters most. Reducing the $300B medication non-adherence crisis, one patient at a time.
+          MedPulse tracks your prescriptions, detects side-effect patterns, and connects you with your doctor when it matters most. Reducing the $300B medication non-adherence crisis, one patient at a time.
         </p>
         <div className="flex items-center justify-center gap-3 flex-wrap">
           <Button size="lg" asChild>
@@ -154,7 +154,7 @@ export default function Index() {
           Everything you need for smarter health tracking
         </h2>
         <p className="text-center text-muted-foreground mb-10 max-w-xl mx-auto">
-          From medication logging to AI-powered insights, SignalRX gives patients and doctors the tools to improve health outcomes.
+          From medication logging to AI-powered insights, MedPulse gives patients and doctors the tools to improve health outcomes.
         </p>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
           {features.map((f) => (
@@ -290,7 +290,7 @@ export default function Index() {
           Ready to take control of your health?
         </h2>
         <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-          Join thousands of patients and doctors using SignalRX to improve medication outcomes. Free to get started.
+          Join thousands of patients and doctors using MedPulse to improve medication outcomes. Free to get started.
         </p>
         <Button size="lg" asChild>
           <Link to="/auth">Create your account <ArrowRight className="ml-1 h-4 w-4" /></Link>
