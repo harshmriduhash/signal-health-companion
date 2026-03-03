@@ -345,7 +345,7 @@ User sends message
 
 ```sh
 # Clone the repository
-git clone <github.com/harshmriduhash/signal-health>
+git clone <github.com/harshmriduhash/signal-health-companion>
 
 # Navigate to project directory
 cd medpulse
