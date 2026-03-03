@@ -445,4 +445,3 @@ supabase/
 
 ## 📄 License
 
-Copyright © 2026 MedPulse. All rights reserved.
