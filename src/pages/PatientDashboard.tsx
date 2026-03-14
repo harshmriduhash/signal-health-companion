@@ -5,8 +5,8 @@ import { useRecommendations } from "@/hooks/useRecommendations";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { subDays } from "date-fns";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Pill, ClipboardList, Brain } from "lucide-react";
+import { Pill, ClipboardList, Brain } from "lucide-react";
+import { motion } from "framer-motion";
 import AppHeader from "@/components/AppHeader";
 import Footer from "@/components/Footer";
 import MedicationList from "@/components/patient/MedicationList";
@@ -16,10 +16,17 @@ import AIChatDialog from "@/components/patient/AIChatDialog";
 import RecommendationCards from "@/components/patient/RecommendationCards";
 import SymptomsList from "@/components/patient/SymptomsList";
 import AdherenceChart from "@/components/charts/AdherenceChart";
+import ShimmerSkeleton from "@/components/ui/ShimmerSkeleton";
+import ProgressRing from "@/components/ui/ProgressRing";
+import MotionCard from "@/components/ui/MotionCard";
+
+const staggerContainer = {
+  animate: { transition: { staggerChildren: 0.08 } },
+};
 
 export default function PatientDashboard() {
   const { user } = useAuth();
-  const { data: meds } = useMedications();
+  const { data: meds, isLoading: medsLoading } = useMedications();
   const { data: todayLogs } = useTodayLogs();
   const { data: symptoms } = useSymptoms(5);
   const { data: recs } = useRecommendations();
@@ -48,10 +55,15 @@ export default function PatientDashboard() {
     <div className="min-h-screen bg-background flex flex-col">
       <AppHeader />
 
-      <main className="container mx-auto px-4 py-8 space-y-6 flex-1">
-        <div className="flex items-center justify-between flex-wrap gap-3">
+      <main className="container mx-auto px-4 py-8 space-y-8 flex-1">
+        <motion.div
+          className="flex items-center justify-between flex-wrap gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <div>
-            <h1 className="text-2xl font-bold font-display">Good day 👋</h1>
+            <h1 className="text-2xl md:text-3xl font-bold font-display">Good day 👋</h1>
             <p className="text-muted-foreground">Here's your health overview for today.</p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -59,60 +71,83 @@ export default function PatientDashboard() {
             <SymptomLogDialog />
             <AIChatDialog />
           </div>
-        </div>
+        </motion.div>
 
         {/* Stats */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Medications</CardTitle>
-              <Pill className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">{meds?.length ?? 0}</p>
-              <p className="text-xs text-muted-foreground">active prescriptions</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Today's Adherence</CardTitle>
-              <Activity className="h-4 w-4 text-accent" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">{adherenceToday}%</p>
-              <p className="text-xs text-muted-foreground">{todayLogs?.filter(l => l.taken)?.length ?? 0}/{meds?.length ?? 0} taken</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Recent Symptoms</CardTitle>
-              <ClipboardList className="h-4 w-4 text-destructive" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">{symptoms?.length ?? 0}</p>
-              <p className="text-xs text-muted-foreground">logged recently</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">AI Insights</CardTitle>
-              <Brain className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">{recs?.length ?? 0}</p>
-              <p className="text-xs text-muted-foreground">recommendations</p>
-            </CardContent>
-          </Card>
-        </div>
+        {medsLoading ? (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map(i => <ShimmerSkeleton key={i} variant="stat" />)}
+          </div>
+        ) : (
+          <motion.div
+            className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+          >
+            <MotionCard delay={0} className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <Pill className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Medications</p>
+                <p className="text-2xl font-bold font-display">{meds?.length ?? 0}</p>
+                <p className="text-xs text-muted-foreground">active prescriptions</p>
+              </div>
+            </MotionCard>
 
-        <AdherenceChart medLogs={medLogs14 ?? []} medications={meds ?? []} />
+            <MotionCard delay={0.08} className="flex items-center gap-4">
+              <ProgressRing value={adherenceToday} size={56} strokeWidth={5} />
+              <div>
+                <p className="text-sm text-muted-foreground">Today's Adherence</p>
+                <p className="text-xs text-muted-foreground">{todayLogs?.filter(l => l.taken)?.length ?? 0}/{meds?.length ?? 0} taken</p>
+              </div>
+            </MotionCard>
+
+            <MotionCard delay={0.16} className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
+                <ClipboardList className="h-5 w-5 text-accent" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Recent Symptoms</p>
+                <p className="text-2xl font-bold font-display">{symptoms?.length ?? 0}</p>
+                <p className="text-xs text-muted-foreground">logged recently</p>
+              </div>
+            </MotionCard>
+
+            <MotionCard delay={0.24} className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <Brain className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">AI Insights</p>
+                <p className="text-2xl font-bold font-display">{recs?.length ?? 0}</p>
+                <p className="text-xs text-muted-foreground">recommendations</p>
+              </div>
+            </MotionCard>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <AdherenceChart medLogs={medLogs14 ?? []} medications={meds ?? []} />
+        </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <MedicationList />
-          <SymptomsList />
+          <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+            <MedicationList />
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+            <SymptomsList />
+          </motion.div>
         </div>
 
-        <RecommendationCards />
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <RecommendationCards />
+        </motion.div>
       </main>
 
       <Footer />
